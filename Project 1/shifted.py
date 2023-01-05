@@ -5,6 +5,7 @@ Created on Wed Jan  4 07:30:02 2023
 
 @author: Alex
 """
+#Alex Shane, ashane4
 
 decrypted_list = []
 #receive the encrypted message from user

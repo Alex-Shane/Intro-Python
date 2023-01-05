@@ -6,6 +6,8 @@ Created on Tue Jan  3 16:05:15 2023
 @author: Alex
 """
 
+#Alex Shane, ashane4
+
 #create list of alphabet in correct order
 normal_alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
                    "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
