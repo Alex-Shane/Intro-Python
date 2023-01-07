@@ -10,9 +10,23 @@ Created on Fri Jan  6 17:32:35 2023
 
 def encode_sequence (message):
     for letter in message:
-        binary_letter = bin(ord(letter))
-        #call helper function to turn binary form of letter into dna letter
-        #print dna letter
+        letter_in_binary = bin(ord(letter))
+        #print (letter_in_binary)
+        print (binary_to_nucleotide (letter_in_binary))
 
 def binary_to_nucleotide (num):
-    for pair in range 
+    nucleotide = ""
+    for i in range (2, len(num), 2):
+        pair = num[i:i+2]
+        if pair == "00":
+            nucleotide += "A"
+        elif pair == "01":
+            nucleotide += "T"
+        elif pair == "10":
+            nucleotide += "C"
+        else:
+            nucleotide += "G"
+    return (nucleotide)
+
+encode_sequence ("Frieza")
+print (bin(ord('a')))
