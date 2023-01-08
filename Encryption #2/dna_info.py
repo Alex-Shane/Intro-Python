@@ -15,7 +15,7 @@ def encode_sequence (message):
     """takes in a message and uses the binary representation of each letter
        to determine what dna base to add to the encoded sequence. Since each
        dna base is matched with 2 bit pairs, each binary representation of a letter
-       corresponds to 4 dna bases added to the final encoded sequence""""
+       corresponds to 4 dna bases added to the final encoded sequence"""
     encoded = ""
     #loop through every letter in message, turning it into a set of 4 dna bases
     for letter in message:
@@ -28,7 +28,7 @@ def encode_sequence (message):
 
 def binary_to_nucleotide (num):
     """helper function for encode_sequence() which takes in the binary represenation
-       of a letter and turns it into a string of 4 dna bases using dna_dict""""
+       of a letter and turns it into a string of 4 dna bases using dna_dict"""
     nucleotide = ""
     #go through string by pairs, and add corresponding dna base to result string
     for i in range (0, len(num), 2):
@@ -40,7 +40,7 @@ dna_dict_reversed_keys = {"A":"00", "T":"01", "C":"10", "G":"11"}
 def decode_sequence (dna):
     """takes in a dna sequence and outputs what the english version of the sequence
        is. accomplishes this by going through the sequence 4 bases at a time and 
-       determines what letter those 4 bases refer to.""""
+       determines what letter those 4 bases refer to."""
     decoded = ""
     #go through dna sequence in groups of 4 bases, using helper function
     #to determine the letter those bases refer to. Add letter to decoded string
@@ -51,7 +51,7 @@ def decode_sequence (dna):
 
 def nucleotides_to_letter (bases):
     """helper function for decode_sequence that takes in 4 dna bases and outputs
-       what letter these bases correspond to by using dna_dict_reversed_keys.""""
+       what letter these bases correspond to by using dna_dict_reversed_keys."""
     bin_string = ""
     #for each letter in string, add it's 2 bit pair to binary string
     for i in range (4):
@@ -63,7 +63,7 @@ def encrypt_decrypt (message, key = "CAT"):
     """takes in a message and optional key (default is "CAT") and for each letter
        in the key, uses the xor operator to encode the current encrypted message.
        after the last letter in key is used to encrypt the message, that message
-       is output as the encrypted message.""""
+       is output as the encrypted message."""
     encrypted = message
     #use xor helper function to modify current encrypted word, output this value
     #once last letter in key has been used in xor helper function
@@ -77,7 +77,7 @@ xor_dict = {"AA":"A", "AT":"T", "TA":"T","AC":"C", "CA":"C","AG":"G", "GA":"G",
 def xor_string (word, letter):
     """helper function for encrypt_decrypt() which takes in a word to be encrypted
        and the current letter from the key and outputs the string that results
-       from the xor operator on every letter of word.""""
+       from the xor operator on every letter of word."""
     result = ""
     #for each letter in word, add appropriate letter to xor string based off
     #dictionary values
@@ -89,7 +89,7 @@ def synthesizer (sequence):
     """simulates robot synthesizing an inputted dna sequence but with some imprecision.
        the robot is faulty in some of its synthesizing and as such generates the 
        wrong base some of the time in the helper function generate_base(). The
-       actual dna sequence created by the robot is the output of the function""""
+       actual dna sequence created by the robot is the output of the function"""
     synthesized = ""
     #for each letter in sequence, generate letter based on probability chart
     for letter in sequence:
@@ -99,7 +99,7 @@ def synthesizer (sequence):
 def generate_base(letter):
     """helper function for synthesizer() that takes in a dna base and generates
        a base to be synthesized based on the probability chart provided in the 
-       project description.""""
+       project description."""
     #if letter is A, automatically return "A"
     if letter == "A":
         return "A"
@@ -136,7 +136,7 @@ def generate_base(letter):
             return "A"
 
 def error_count (word1, word2):
-    """"takes in two strings and compares them character by character, outputting
+    """takes in two strings and compares them character by character, outputting
         the number of letters that don't match each other."""
     mismatched = 0
     #loop through length of strings and if the letters aren't equal, add to the 
@@ -151,7 +151,7 @@ def redundancy (n, word):
        frequent character at each position in the sequence and declares that
        to be the "correct" base and thus adds that to the final sequence which 
        gets outputted once every position in the sequence has been checked and 
-       determined what letter should be there.""""
+       determined what letter should be there."""
     fixed = ""
     synthesized_list = []
     #for n times, create a synthesized sequence and store it in a list
@@ -178,6 +178,8 @@ for i in range (1,6):
     error = error_count(result, "GGCAGCGCGAAGGTGGCGCCACGGCCCTTGAAGCCCGGCTCAGTCAGTTCGAGCGCAACGCCGCGGGCGGCGCGGGGCGGCGGTGGGCGCCCGACACTGGGCGGCGCCCAGCCCGGCAGCGGAG")
     f.write("Error for n = " + str(i) + " was " + str(error) + " letters" + "\n") 
 f.close()
+
+
     
     
     
