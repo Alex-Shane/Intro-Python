@@ -20,7 +20,7 @@ def encode_sequence (message):
         #call helper function to create 4 dna bases from binary rep. add result
         #to overall encoded message
         encoded += binary_to_nucleotide (letter_in_binary)
-    print (encoded)
+    return(encoded)
 
 def binary_to_nucleotide (num):
     nucleotide = ""
@@ -38,7 +38,7 @@ def decode_sequence (dna):
     for k in range (0,len(dna),4):
         bases = dna[k:k+4]
         decoded += nucleotides_to_letter (bases)
-    print (decoded)
+    return(decoded)
 
 def nucleotides_to_letter (bases):
     bin_string = ""
@@ -54,7 +54,7 @@ def encrypt_decrypt (encode, key = "CAT"):
     #once last letter in key has been used in xor helper function
     for letter in key:
         encrypted = xor_string (encrypted, letter)
-    print (encrypted)
+    return(encrypted)
 
 xor_dict = {"AA":"A", "AT":"T", "TA":"T","AC":"C", "CA":"C","AG":"G", "GA":"G",
             "TT":"A", "TC":"G", "CT":"G", "TG":"C", "GT":"C", "CC":"A", "CG":"T", 
@@ -72,7 +72,7 @@ def synthesizer (sequence):
     #for each letter in sequence, generate letter based on probability chart
     for letter in sequence:
         synthesized += generate_base(letter)
-    print (synthesized)
+    return (synthesized)
 
 def generate_base(letter):
     #if letter is A, automatically return "A"
@@ -117,3 +117,25 @@ def error_count (word1, word2):
             mismatched += 1
     return mismatched
 
+def redundancy (n, word):
+    fixed = ""
+    synthesized_list = []
+    for i in range (n):
+        synthesized_list.append(synthesizer(word))
+    for k in range (len(word)):
+        counts = {"A":0, "T":0, "C":0, "G":0}
+        for sequence in synthesized_list:
+            counts[sequence[k]] += 1
+        fixed += max(counts, key = counts.get)
+    return fixed
+
+f = open("error_count.pdf", "w")
+for i in range (1,6):
+    result = redundancy (4, "GGCAGCGCGAAGGTGGCGCCACGGCCCTTGAAGCCCGGCTCAGTCAGTTCGAGCGCAACGCCGCGGGCGGCGCGGGGCGGCGGTGGGCGCCCGACACTGGGCGGCGCCCAGCCCGGCAGCGGAG")
+    error = error_count(result, "GGCAGCGCGAAGGTGGCGCCACGGCCCTTGAAGCCCGGCTCAGTCAGTTCGAGCGCAACGCCGCGGGCGGCGCGGGGCGGCGGTGGGCGCCCGACACTGGGCGGCGCCCAGCCCGGCAGCGGAG")
+    f.write("Error for n = " + str(i) + " was " + str(error) + " letters") 
+    f.write ("testing")
+f.close()
+    
+    
+    
