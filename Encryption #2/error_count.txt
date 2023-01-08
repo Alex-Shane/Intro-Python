@@ -1,0 +1,5 @@
+Error for n = 1 was 4 letters
+Error for n = 2 was 5 letters
+Error for n = 3 was 0 letters
+Error for n = 4 was 0 letters
+Error for n = 5 was 0 letters
