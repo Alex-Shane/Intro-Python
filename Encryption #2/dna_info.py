@@ -110,5 +110,10 @@ def generate_base(letter):
         else:
             return "A"
 
-    
-    
+def error_count (word1, word2):
+    mismatched = 0
+    for k in range (len(word1)):
+        if word1[k] != word2[k]:
+            mismatched += 1
+    return mismatched
+
