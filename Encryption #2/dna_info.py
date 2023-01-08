@@ -7,6 +7,7 @@ Created on Fri Jan  6 17:32:35 2023
 """
 
 #Alex Shane, ashane4
+import random
 
 dna_dict = {"00":"A", "01":"T", "10":"C", "11":"G"}
 
@@ -49,6 +50,8 @@ def nucleotides_to_letter (bases):
 
 def encrypt_decrypt (encode, key = "CAT"):
     encrypted = encode
+    #use xor helper function to modify current encrypted word, output this value
+    #once last letter in key has been used in xor helper function
     for letter in key:
         encrypted = xor_string (encrypted, letter)
     print (encrypted)
@@ -58,11 +61,54 @@ xor_dict = {"AA":"A", "AT":"T", "TA":"T","AC":"C", "CA":"C","AG":"G", "GA":"G",
             "GC":"T", "GG":"A"}
 def xor_string (word, letter):
     result = ""
+    #for each letter in word, add appropriate letter to xor string based off
+    #dictionary values
     for k in range (0, len(word)):
         result += xor_dict [word[k]+letter]
     return (result)
 
-encrypt_decrypt ("TAAT", "CA")
+def synthesizer (sequence):
+    synthesized = ""
+    #for each letter in sequence, generate letter based on probability chart
+    for letter in sequence:
+        synthesized += generate_base(letter)
+    print (synthesized)
+
+def generate_base(letter):
+    #if letter is A, automatically return "A"
+    if letter == "A":
+        return "A"
+    #generate random number between 0 (inclusive) and 1 (exclusive)
+    rand = random.random()
+    #use probabilities from chart to determine what letter should be output based
+    #on the value of the random number
+    if letter == "T":
+        if rand < 0.90:
+            return "T"
+        elif rand >= 0.90 and rand < 0.95:
+            return "A"
+        elif rand >= 0.95 and rand < 0.98:
+            return "C"
+        else:
+            return "G"
+    elif letter == "C":
+        if rand < 0.97:
+            return "C"
+        elif rand == 0.97:
+            return "A"
+        elif rand == 0.98:
+            return "T"
+        else:
+            return "G"
+    else:
+        if rand < 0.95:
+            return "G"
+        elif rand >= 0.95 and rand < 0.97:
+            return "T"
+        elif rand >= 0.97 and rand < 0.99:
+            return "C"
+        else:
+            return "A"
 
     
     
