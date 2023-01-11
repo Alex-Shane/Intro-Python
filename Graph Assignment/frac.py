@@ -10,19 +10,19 @@ Created on Wed Jan 11 10:15:28 2023
 
 class Frac:
     
-    def _init_(self, num, den):
+    def __init__(self, num, den):
         self.num = num
         self.den = den
         return
     
-    def find_greatest_common_divisor(self):
-        while self.den:
-            self.num, self.den = self.den, self.num % self.den
-        return (self.num)
+    def find_greatest_common_divisor(self, num, den):
+        while den:
+            num, den = den, num % den
+        return (num)
     
     def simplify (self):
-        divisor = self.find_greatest_common_divisor()
-        return (Frac(self.num/divisor, self.den/divisor))
+        divisor = self.find_greatest_common_divisor(self.num, self.den)
+        return (Frac((int)(self.num/divisor), (int)(self.den/divisor)))
     
     def __add__(self, other):
         if self.den == other.den:
@@ -45,11 +45,25 @@ class Frac:
             new_frac = Frac(new_num1-new_num2, new_den)
         return (new_frac.simplify())   
 
-    def _mul_(self, other):
-        return (self.simplify(Frac(self.num*other.num, other.den*self.den)))
+    def __mul__(self, other):
+        new_frac = Frac (self.num*other.num, self.den*other.den)
+        return (new_frac.simplify())
     
-    def _div_(self, other):
-        return (self.simplify(Frac(self.num*other.den, self.den*other.num)))
+    def __truediv__(self, other):
+        new_frac = Frac(self.num*other.den, self.den*other.num)
+        return (new_frac.simplify())
+    
+    def __str__(self):
+        return (str(self.num) + "/" + str(self.den))
+    
+frac1 = Frac(3,12)
+frac2 = Frac (2,1)
+res = frac1/frac2
+print (res)
+
+    
+    
+    
 
     
 
