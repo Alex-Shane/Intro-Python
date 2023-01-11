@@ -56,10 +56,6 @@ class Frac:
     def __str__(self):
         return (str(self.num) + "/" + str(self.den))
     
-frac1 = Frac(3,12)
-frac2 = Frac (2,1)
-res = frac1/frac2
-print (res)
 
     
     
