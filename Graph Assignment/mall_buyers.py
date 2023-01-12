@@ -74,6 +74,9 @@ class Buyer:
     def __init__(self, current_node_id, remaining_budget):
         self.current_node_id = current_node_id
         self.remaining_budget = remaining_budget
+        
+    def __str__(self):
+        return ("current building ID: {id}, budget left = {budg}").format(id = self.current_node_id, budg = self.remaining_budget)
 
 def create_graph(connections, prices):
     partial_nodes = []
@@ -107,9 +110,11 @@ def create_buyers (budgets, building_ids):
     buyers = []
     budget_file = open(budgets, 'r', encoding='utf-8-sig')
     for budget in budget_file:
+        print (budget)
         index = random.randint(0,4)
         new_buyer = Buyer (building_ids[index], Frac(budget,budget))
         buyers.append (new_buyer)
+        print (buyers)
     return (buyers)
 
 def run_simulation(connections, building_prices, budgets):
@@ -124,4 +129,8 @@ def run_simulation(connections, building_prices, budgets):
 buildings = create_graph("connections.txt", "pricing.txt")
 for b in buildings:
     print (b)
+building_ids = [node.id for node in buildings]
+print (building_ids)
+buyers = create_buyers("budgets.txt", building_ids)
+print (buyers)
     
