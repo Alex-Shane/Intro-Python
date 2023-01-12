@@ -7,8 +7,56 @@ Created on Wed Jan 11 11:40:28 2023
 """
 
 #Alex Shane, ashane4
-import Frac
+#import Frac
 import random
+
+class Frac:
+    
+    def __init__(self, num, den):
+        self.num = num
+        self.den = den
+        return
+    
+    def find_greatest_common_divisor(self, num, den):
+        while den:
+            num, den = den, num % den
+        return (num)
+    
+    def simplify (self):
+        divisor = self.find_greatest_common_divisor(self.num, self.den)
+        return (Frac((int)(self.num/divisor), (int)(self.den/divisor)))
+    
+    def __add__(self, other):
+        if self.den == other.den:
+            new_frac = Frac(self.num+other.num,self.den)
+        else:
+            new_num1 = self.num*other.den
+            new_num2 = other.num*self.den
+            new_den = self.den*other.den
+            new_frac = Frac(new_num1+new_num2, new_den)
+        return (new_frac.simplify())
+    
+    
+    def __sub__(self, other):
+        if self.den == other.den:
+            new_frac = Frac(self.num-other.num,self.den)
+        else:
+            new_num1 = self.num*other.den
+            new_num2 = other.num*self.den
+            new_den = self.den*other.den
+            new_frac = Frac(new_num1-new_num2, new_den)
+        return (new_frac.simplify())   
+
+    def __mul__(self, other):
+        new_frac = Frac (self.num*other.num, self.den*other.den)
+        return (new_frac.simplify())
+    
+    def __truediv__(self, other):
+        new_frac = Frac(self.num*other.den, self.den*other.num)
+        return (new_frac.simplify())
+    
+    def __str__(self):
+        return (str(self.num) + "/" + str(self.den))
 
 class Node:
     def __init__(self, id, connected_nodes, minimum_price, fractional_price):
@@ -18,6 +66,9 @@ class Node:
         self.fractional_price = fractional_price
         self.revenue = 0
         return
+    
+    def __str__(self):
+        return ("ID = {id}, connected to = {connect}, min_price = {min}, frac_price = {frac}, revenue = {rev}").format(id = self.id, connect = self.connected_nodes, min = self.minimum_price, frac = self.fractional_price, rev = self.revenue)
     
 class Buyer:
     def __init__(self, current_node_id, remaining_budget):
@@ -48,7 +99,7 @@ def create_graph(connections, prices):
         partial_nodes[index].append(frac_price)
     created_nodes = []
     for item in partial_nodes:
-        node = Node (item[0], item[1], item[2], item[3], item[4])
+        node = Node (item[0], item[1], item[2], item[3])
         created_nodes.append(node)
     return (created_nodes)
 
@@ -65,6 +116,12 @@ def run_simulation(connections, building_prices, budgets):
     buildings = create_graph(connections, building_prices)
     building_ids = [node[0] for node in buildings]
     buyers = create_buyers(budgets, building_ids)
+    return buyers
+
 
     
+
+buildings = create_graph("connections.txt", "pricing.txt")
+for b in buildings:
+    print (b)
     
