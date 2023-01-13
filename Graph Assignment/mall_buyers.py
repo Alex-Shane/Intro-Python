@@ -55,6 +55,13 @@ class Frac:
         new_frac = Frac(self.num*other.den, self.den*other.num)
         return (new_frac.simplify())
     
+    def __ge__(self, other):
+        new_num1 = self.num*other.den
+        new_num2 = other.num*self.den
+        if new_num1 >= new_num2:
+            return True
+        return False
+    
     def __str__(self):
         return (str(self.num) + "/" + str(self.den))
 
@@ -110,8 +117,6 @@ def create_buyers (budgets, building_ids):
     buyers = []
     budget_file = open(budgets, 'r', encoding='utf-8-sig')
     buds = budget_file.read().split()
-    #for line in budget_file:
-        #buds = line.split()
     for b in buds:
         buyers.append(Buyer(random.choice(building_ids), Frac(b,1)))
     return (buyers)
@@ -120,16 +125,21 @@ def run_simulation(connections, building_prices, budgets):
     buildings = create_graph(connections, building_prices)
     building_ids = [node[0] for node in buildings]
     buyers = create_buyers(budgets, building_ids)
-    return buyers
-
-
-    
-
-buildings = create_graph("connections.txt", "pricing.txt")
-for b in buildings:
-    print (b)
-building_ids = [node.id for node in buildings]
-buyers = create_buyers("budgets.txt", building_ids)
-for b in buyers:
-    print (b)
+    for buyer in buyers:
+        index = building_ids.index(buyers.current_node_id)
+        build_price = buildings[index].minimum_price
+        while buyer.remaining_budget >= build_price:
+            buyer.remaining_budget = buyer.remaining_budget - build_price
+            buildings[index].revenue = buildings[index].revenue + build_price
+            next_node = random.choice (buildings[index].connected_nodes)
+            buyers.current_node_id = next_node.id
+            index = building_ids.index(buyers.current_node_id)
+            build_price = buildings[index].minimum_price
+        buyers.remove(buyer)
+    total_revenue = 0
+    for node in buildings:
+        total_revenue = total_revenue - node.revenue
+    revenue_dict = []
+    for id in building_ids:
+        
     
