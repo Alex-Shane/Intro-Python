@@ -109,12 +109,11 @@ def create_graph(connections, prices):
 def create_buyers (budgets, building_ids):
     buyers = []
     budget_file = open(budgets, 'r', encoding='utf-8-sig')
-    for budget in budget_file:
-        print (budget)
-        index = random.randint(0,4)
-        new_buyer = Buyer (building_ids[index], Frac(budget,budget))
-        buyers.append (new_buyer)
-        print (buyers)
+    buds = budget_file.read().split()
+    #for line in budget_file:
+        #buds = line.split()
+    for b in buds:
+        buyers.append(Buyer(random.choice(building_ids), Frac(b,1)))
     return (buyers)
 
 def run_simulation(connections, building_prices, budgets):
@@ -130,7 +129,7 @@ buildings = create_graph("connections.txt", "pricing.txt")
 for b in buildings:
     print (b)
 building_ids = [node.id for node in buildings]
-print (building_ids)
 buyers = create_buyers("budgets.txt", building_ids)
-print (buyers)
+for b in buyers:
+    print (b)
     
