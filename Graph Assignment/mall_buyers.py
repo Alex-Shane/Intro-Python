@@ -30,9 +30,9 @@ class Frac:
         if self.den == other.den:
             new_frac = Frac(self.num+other.num,self.den)
         else:
-            new_num1 = self.num*other.den
-            new_num2 = other.num*self.den
-            new_den = self.den*other.den
+            new_num1 = (int)(self.num)*(int)(other.den)
+            new_num2 = (int)(other.num)*(int)(self.den)
+            new_den = (int)(self.den)*(int)(other.den)
             new_frac = Frac(new_num1+new_num2, new_den)
         return (new_frac.simplify())
     
@@ -41,9 +41,9 @@ class Frac:
         if self.den == other.den:
             new_frac = Frac(self.num-other.num,self.den)
         else:
-            new_num1 = self.num*other.den
-            new_num2 = other.num*self.den
-            new_den = self.den*other.den
+            new_num1 = (int)(self.num)*(int)(other.den)
+            new_num2 = (int)(other.num)*(int)(self.den)
+            new_den = (int)(self.den)*(int)(other.den)
             new_frac = Frac(new_num1-new_num2, new_den)
         return (new_frac.simplify())   
 
@@ -56,8 +56,8 @@ class Frac:
         return (new_frac.simplify())
     
     def __ge__(self, other):
-        new_num1 = self.num*other.den
-        new_num2 = other.num*self.den
+        new_num1 = (int)(self.num)*(int)(other.den)
+        new_num2 = (int)(other.num)*(int)(self.den)
         if new_num1 >= new_num2:
             return True
         return False
@@ -71,7 +71,7 @@ class Node:
         self.connected_nodes = connected_nodes
         self.minimum_price = minimum_price
         self.fractional_price = fractional_price
-        self.revenue = 0
+        self.revenue = Frac (0,1)
         return
     
     def __str__(self):
@@ -123,23 +123,28 @@ def create_buyers (budgets, building_ids):
 
 def run_simulation(connections, building_prices, budgets):
     buildings = create_graph(connections, building_prices)
-    building_ids = [node[0] for node in buildings]
+    building_ids = [node.id for node in buildings]
     buyers = create_buyers(budgets, building_ids)
     for buyer in buyers:
-        index = building_ids.index(buyers.current_node_id)
+        index = building_ids.index(buyer.current_node_id)
         build_price = buildings[index].minimum_price
         while buyer.remaining_budget >= build_price:
             buyer.remaining_budget = buyer.remaining_budget - build_price
             buildings[index].revenue = buildings[index].revenue + build_price
             next_node = random.choice (buildings[index].connected_nodes)
-            buyers.current_node_id = next_node.id
-            index = building_ids.index(buyers.current_node_id)
+            buyer.current_node_id = next_node
+            index = building_ids.index(buyer.current_node_id)
             build_price = buildings[index].minimum_price
         buyers.remove(buyer)
-    total_revenue = 0
+    total_revenue = Frac (0,1)
     for node in buildings:
         total_revenue = total_revenue - node.revenue
-    revenue_dict = []
+    revenue_dict = {}
     for id in building_ids:
-        
+        id_index = building_ids.index(id)
+        revenue_dict[id] = total_revenue / buildings[id_index].revenue
+    return ((total_revenue, revenue_dict))
+
+res = run_simulation ("connections.txt", "pricing.txt", "budgets.txt")
+print (res[0])
     

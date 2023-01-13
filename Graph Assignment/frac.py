@@ -53,6 +53,13 @@ class Frac:
         new_frac = Frac(self.num*other.den, self.den*other.num)
         return (new_frac.simplify())
     
+    def __ge__(self, other):
+        new_num1 = self.num*other.den
+        new_num2 = other.num*self.den
+        if new_num1 >= new_num2:
+            return True
+        return False
+    
     def __str__(self):
         return (str(self.num) + "/" + str(self.den))
     
