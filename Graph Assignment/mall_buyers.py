@@ -9,61 +9,7 @@ Created on Wed Jan 11 11:40:28 2023
 #Alex Shane, ashane4
 #import Frac
 import random
-
-class Frac:
-    
-    def __init__(self, num, den):
-        self.num = num
-        self.den = den
-        return
-    
-    def find_greatest_common_divisor(self, num, den):
-        while den:
-            num, den = den, num % den
-        return (num)
-    
-    def simplify (self):
-        divisor = self.find_greatest_common_divisor(self.num, self.den)
-        return (Frac((int)(self.num/divisor), (int)(self.den/divisor)))
-    
-    def __add__(self, other):
-        if self.den == other.den:
-            new_frac = Frac(self.num+other.num,self.den)
-        else:
-            new_num1 = (int)(self.num)*(int)(other.den)
-            new_num2 = (int)(other.num)*(int)(self.den)
-            new_den = (int)(self.den)*(int)(other.den)
-            new_frac = Frac(new_num1+new_num2, new_den)
-        return (new_frac.simplify())
-    
-    
-    def __sub__(self, other):
-        if self.den == other.den:
-            new_frac = Frac(self.num-other.num,self.den)
-        else:
-            new_num1 = (int)(self.num)*(int)(other.den)
-            new_num2 = (int)(other.num)*(int)(self.den)
-            new_den = (int)(self.den)*(int)(other.den)
-            new_frac = Frac(new_num1-new_num2, new_den)
-        return (new_frac.simplify())   
-
-    def __mul__(self, other):
-        new_frac = Frac (self.num*other.num, self.den*other.den)
-        return (new_frac.simplify())
-    
-    def __truediv__(self, other):
-        new_frac = Frac(self.num*other.den, self.den*other.num)
-        return (new_frac.simplify())
-    
-    def __ge__(self, other):
-        new_num1 = (int)(self.num)*(int)(other.den)
-        new_num2 = (int)(other.num)*(int)(self.den)
-        if new_num1 >= new_num2:
-            return True
-        return False
-    
-    def __str__(self):
-        return (str(self.num) + "/" + str(self.den))
+from frac import Frac 
 
 class Node:
     def __init__(self, id, connected_nodes, minimum_price, fractional_price):
@@ -135,16 +81,13 @@ def run_simulation(connections, building_prices, budgets):
             buyer.current_node_id = next_node
             index = building_ids.index(buyer.current_node_id)
             build_price = buildings[index].minimum_price
-        buyers.remove(buyer)
     total_revenue = Frac (0,1)
     for node in buildings:
-        total_revenue = total_revenue - node.revenue
+        total_revenue = total_revenue + node.revenue
     revenue_dict = {}
     for id in building_ids:
         id_index = building_ids.index(id)
-        revenue_dict[id] = total_revenue / buildings[id_index].revenue
+        revenue_dict[id] = buildings[id_index].revenue / total_revenue 
     return ((total_revenue, revenue_dict))
 
-res = run_simulation ("connections.txt", "pricing.txt", "budgets.txt")
-print (res[0])
     

@@ -28,9 +28,9 @@ class Frac:
         if self.den == other.den:
             new_frac = Frac(self.num+other.num,self.den)
         else:
-            new_num1 = self.num*other.den
-            new_num2 = other.num*self.den
-            new_den = self.den*other.den
+            new_num1 = (int)(self.num)*(int)(other.den)
+            new_num2 = (int)(other.num)*(int)(self.den)
+            new_den = (int)(self.den)*(int)(other.den)
             new_frac = Frac(new_num1+new_num2, new_den)
         return (new_frac.simplify())
     
@@ -39,32 +39,29 @@ class Frac:
         if self.den == other.den:
             new_frac = Frac(self.num-other.num,self.den)
         else:
-            new_num1 = self.num*other.den
-            new_num2 = other.num*self.den
-            new_den = self.den*other.den
+            new_num1 = (int)(self.num)*(int)(other.den)
+            new_num2 = (int)(other.num)*(int)(self.den)
+            new_den = (int)(self.den)*(int)(other.den)
             new_frac = Frac(new_num1-new_num2, new_den)
         return (new_frac.simplify())   
 
     def __mul__(self, other):
-        new_frac = Frac (self.num*other.num, self.den*other.den)
+        new_frac = Frac ((int)(self.num)*(int)(other.num), (int)(self.den)*(int)(other.den))
         return (new_frac.simplify())
     
     def __truediv__(self, other):
-        new_frac = Frac(self.num*other.den, self.den*other.num)
+        new_frac = Frac ((int)(self.num)*(int)(other.den), (int)(self.den)*(int)(other.num))
         return (new_frac.simplify())
     
     def __ge__(self, other):
-        new_num1 = self.num*other.den
-        new_num2 = other.num*self.den
+        new_num1 = (int)(self.num)*(int)(other.den)
+        new_num2 = (int)(other.num)*(int)(self.den)
         if new_num1 >= new_num2:
             return True
         return False
     
     def __str__(self):
         return (str(self.num) + "/" + str(self.den))
-    
-
-    
     
     
 
