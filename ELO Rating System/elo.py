@@ -8,6 +8,7 @@ Created on Sun Jan 15 16:18:28 2023
 
 #Alex Shane, ashane4
 import pandas as pd
+import matplotlib.pyplot as plt
 import math
 import random
 
@@ -43,6 +44,25 @@ def calculate_ratings(past_matches):
     except:
         print("Unknown error while accessing data in " +past_matches)
     return (ratings)
+
+def display_ratings(ratings):
+    """Parameters
+    ratings: TYPE, dictionary with player names as keys and their ratings as values
+    
+    Returns: a bar graph of ratings for players in the tournament, also saves bar graph to pdf file"""
+    plt.rc('font', family='sans serif')
+    fig = plt.figure(figsize=(6,5))
+    players = [x for x in range(8)]
+    ratings = [val for val in ratings.values()]
+    plt.ylabel('Rating', fontsize=20)
+    plt.xlabel ('Player', fontsize=20)
+    plt.ylim(1200,1700)
+    plt.xticks(fontsize=20)
+    plt.yticks([i*100 + 1200 for i in range(6)], fontsize=20)
+    plt.bar(players, ratings)
+    plt.tight_layout()
+    plt.savefig('projections.pdf')
+    plt.show(fig)
 
 def simulate_tournament(ratings):
     """Parameters
@@ -106,5 +126,6 @@ def project_win_probs(ratings_dict):
     return (results_dict)
 
 ratings_dict = calculate_ratings("past_matches.csv")
+display_ratings(ratings_dict)
 prob_dict = project_win_probs(ratings_dict)
     
