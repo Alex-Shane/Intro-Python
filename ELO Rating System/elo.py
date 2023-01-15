@@ -11,6 +11,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 import random
+import csv
+import operator
 
 def calculate_ratings(past_matches):
     """Parameters
@@ -50,18 +52,28 @@ def display_ratings(ratings):
     ratings: TYPE, dictionary with player names as keys and their ratings as values
     
     Returns: a bar graph of ratings for players in the tournament, also saves bar graph to pdf file"""
+    #set font
     plt.rc('font', family='sans serif')
     fig = plt.figure(figsize=(6,5))
+    #set x axis data
     players = [x for x in range(8)]
+    #set y axis data
     ratings = [val for val in ratings.values()]
+    #label y axis
     plt.ylabel('Rating', fontsize=20)
+    #label x axis
     plt.xlabel ('Player', fontsize=20)
+    #set bounds on y axis
+    #change tick mark size
     plt.ylim(1200,1700)
     plt.xticks(fontsize=20)
     plt.yticks([i*100 + 1200 for i in range(6)], fontsize=20)
+    #create bar graph
     plt.bar(players, ratings)
     plt.tight_layout()
+    #save bar graph
     plt.savefig('projections.pdf')
+    #display bar graph
     plt.show(fig)
 
 def simulate_tournament(ratings):
@@ -125,7 +137,43 @@ def project_win_probs(ratings_dict):
         results_dict[winner] += 0.01
     return (results_dict)
 
-ratings_dict = calculate_ratings("past_matches.csv")
-display_ratings(ratings_dict)
-prob_dict = project_win_probs(ratings_dict)
+def display_probs (probs):
+    """Parameters: 
+    probs: TYPE, dictionary with player names as keys and their probabilities of winning
+    the tournament based on 100 simulations as the values
+    
+    Returns: No return value but creates 2 files: one csv file with the players
+    listed by greatest to least chance of winning, and one pie chart of the player
+    probabilities"""
+    #create list of tuples where each tuple is a key:value pair and this list
+    #is sorted by value in descending order
+    sorted_dict = sorted(probs.items(), key=operator.itemgetter(1),reverse=True)
+    #create list of sorted probabilities if the value is not zero
+    sorted_probs = [pair[1] for pair in sorted_dict if pair[1] != 0]
+    #create list of sorted keys if its associated value is not zero
+    sorted_keys = [pair[0] for pair in sorted_dict if pair[1] != 0]
+    #name csv file
+    file_name = "probs.csv"
+    #open csv file
+    with open (file_name,'w') as csv_file:
+        #create writer object
+        csv_writer = csv.writer(csv_file)
+        #write the fields of the file
+        csv_writer.writerow(['player','probability of winning'])
+        #for every player, write down their name and probability
+        for pair in sorted_dict:
+            row = [pair[0],pair[1]]
+            csv_writer.writerow(row)
+    #close file once done writiing
+    csv_file.close()
+    fig = plt.figure(figsize =(6, 5))
+    #create pie chart
+    plt.pie(sorted_probs, labels = sorted_keys)
+    plt.tight_layout()
+    #save piechart to working directory
+    plt.savefig('projections_pie.pdf')
+    #display chart in console
+    plt.show(fig)
+    return 
+    
     
