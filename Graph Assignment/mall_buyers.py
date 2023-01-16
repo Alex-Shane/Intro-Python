@@ -153,8 +153,14 @@ def run_simulation(connections, building_prices, budgets):
             buyer.remaining_budget = buyer.remaining_budget - spent
             #update revenue after purchase
             buildings[index].revenue = buildings[index].revenue + spent
-            #get id of next building for buyer to shop at
-            next_node = random.choice (buildings[index].connected_nodes)
+            #check if building doesn't have connecting buildings
+            if len(buildings[index].connected_nodes) == 0:
+                #if no connecting building, keep shopping at same building
+                next_node = buyer.current_node_id
+            #if building has connecting buildings, find next building to go to
+            else:
+                #get id of next building for buyer to shop at
+                next_node = random.choice (buildings[index].connected_nodes)
             buyer.current_node_id = next_node
             #find index of building to shop at
             index = building_ids.index(buyer.current_node_id)

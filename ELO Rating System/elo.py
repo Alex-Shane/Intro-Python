@@ -81,16 +81,7 @@ def simulate_tournament(ratings):
     ratings: TYPE, dictionary with player names as keys and their ratings as values
     
     Returns: the name of the player who wins this simulated tournament"""
-    quarters = []
-    #create list of players who have not been given quarterfinal match yet
-    available_players = [x for x in range (8)]
-    #for each match, randomly pick two players and add their match into quarters list
-    for x in range (4):
-        player_1 = random.choice(available_players)
-        available_players.remove(player_1)
-        player_2 = random.choice (available_players)
-        available_players.remove(player_2)
-        quarters.append([player_1,player_2])
+    quarters = [[0,7], [1,6], [2,5], [3,4]]
     semis = []
     finals = []
     #simulate each match in the quarters, sending the winner onto the semis
@@ -183,10 +174,5 @@ def display_probs (probs):
     plt.savefig('projections_pie.pdf')
     #display chart in console
     plt.show()
-
-ratings_dict = calculate_ratings("past_matches.csv")
-display_ratings(ratings_dict)
-prob_dict = project_win_probs(ratings_dict)
-display_probs(prob_dict) 
     
     
